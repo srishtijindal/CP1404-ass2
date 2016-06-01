@@ -1,0 +1,67 @@
+BoxLayout:
+    # this layout has an id so we can check if it is the parent of the popup - below
+    id: mainBox
+    Popup:
+        id: popup
+        size_hint:1,1
+        auto_dismiss: False
+        title: "Add item"
+        on_parent:
+            # Make popup disappear immediately
+            if self.parent == mainBox: self.parent.remove_widget(self)
+
+        BoxLayout:
+            orientation:'vertical'
+            Label:
+                text: 'Item Name'
+            TextInput:
+                id:addedName
+            Label:
+                text: 'Item Description'
+            TextInput:
+                id:addedDescription
+            Label:
+                text: 'Item Cost'
+            TextInput:
+                id:addedCost
+            Button:
+                text: 'Save Entry'
+                on_release: app.press_save(addedName.text, addedDescription.text, addedCost.text)
+            Button:
+                text: 'Cancel'
+                on_release: app.press_cancel()
+    BoxLayout:
+        orientation:'vertical'
+        BoxLayout:
+            cols:2#note:you need to define either cols or rows
+            BoxLayout:
+                orientation:'vertical'
+                size_hint_x:0.3
+                Button:
+                    text:'List Items'
+                    on_release:app.press_list()
+                Button:
+                    text:'Hire Items'
+                    on_release:app.press_hire()
+                Button:
+                    text:'Return Items'
+                    on_release:app.press_return()
+                Button:
+                    text:'Confirm'
+                    on_release:app.press_confirm()
+                Button:
+                    text:'Add New Items'
+                    id:'add'
+                    on_press:app.press_add()
+            GridLayout:
+                # this layout is populated with (button) widgets in app code
+                id: itemBox
+                cols: 1
+                orientation: 'vertical'
+        Label:
+            id: statusLabel
+            size_hint_y: 0.1
+            text: app.status_text
+
+    #background_color:0,1,4,2
+    #background_color:2,6,2,2
